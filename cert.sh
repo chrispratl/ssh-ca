@@ -25,7 +25,7 @@ serial=$(cat serial)
 cd $server
 
 # Find infile
-for infile in id_rsa id_ed25519 ssh_host_rsa_key ssh_host_ecdsa_key ssh_host_ed25519_key
+for infile in id_ecdsa id_rsa id_ed25519 ssh_host_rsa_key ssh_host_ecdsa_key ssh_host_ed25519_key
 do
     if [[ -f $infile.pub ]]
     then
