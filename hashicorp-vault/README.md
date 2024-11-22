@@ -17,7 +17,7 @@ Note: The Client CA part is still missing, I am currently still doing that via t
     }
    EOT
    vault policy write ssh-server-ca ./ssh-server-ca-policy.hcl
-```
+   ```
     * Setup a SSH secret engine, call it `ssh-server-ca`. Import a key or let a new one be created, it doesn't really matter. I did not that much of configuration here, just defined a max TTL of $50$ days (which is not really required anyways).
         * In configuration, setup a private & public key for signing. Note that my scripts are using the `ed25519` protocol, which is not the default. If you want to let Vault setup a keypair for you, use something like the following command: `vault write ssh-server-ca/config/ca key_type=ed25519 generate_signing_key=true`
     * In the `ssh-client-ca`, create a new role called `server-signing`. I did the following configuration here:
