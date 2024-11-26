@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "Error: 'jq' is not installed. Please install it to use this script."
+    exit 1
+fi
+
+config_file=config.json
+
+
+# Check if the configuration file exists
+if [[ ! -f "$config_file" ]]; then
+    echo "Error: Configuration file '$config_file' not found!"
+    exit 2
+fi
+
+min_valid_days=$( jq -r .min_valid_days "$config_file" )
+
+if [[ -z "$min_valid_days" ]]; then
+        min_valid_days=8
+fi
+
 # Store the expiry date in a variable
 cert_expiry_date=$(ssh-keygen -L -f /etc/ssh/ssh_host_ed25519_key-cert.pub | grep "Valid:" | cut -d " " -f 13)
 
@@ -18,9 +39,7 @@ else
 	# Note: No spaces for the division! Otherwise, bash fails.
 	let validity=($cert_expiry_seconds - $now)/86400
 
-	timeout=2
-
-	if [ $validity -lt $timeout ]; then
+	if [ $validity -lt $min_valid_days ]; then
 		/opt/secrets/renew-ssh-host-certificate.sh
 	fi
 
