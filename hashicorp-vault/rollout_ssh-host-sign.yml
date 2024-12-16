@@ -1,0 +1,31 @@
+- name: Rollout automatical host SSH certificate signing
+  tasks:
+  - name: Push the scripts to the host
+    become: true
+    ansible.builtin.copy:
+      src: /opt/secrets/
+      dest: /opt/secrets/
+
+  - name: Push the systemd service file to the host
+    become: true
+    ansible.builtin.copy:
+      src: /etc/systemd/system/ssh-host-certificate-renew.service
+      dest: /etc/systemd/system/ssh-host-certificate-renew.service
+
+  - name: Push the systemd timer file to the host
+    become: true
+    ansible.builtin.copy:
+      src: /etc/systemd/system/ssh-host-certificate-renew.timer
+      dest: /etc/systemd/system/ssh-host-certificate-renew.timer
+
+  - name: Force systemd to reread configs
+    become: true
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: Enable a timer unit
+    become: true
+    ansible.builtin.systemd_service:
+      name: ssh-host-certificate-renew.timer
+      state: started
+      enabled: true

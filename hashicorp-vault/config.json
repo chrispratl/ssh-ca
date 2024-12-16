@@ -1,0 +1,9 @@
+{
+  "roleid": "",
+  "server": "",
+  "port": "8200",
+  "sshEnginePath": "ssh",
+  "hostRole": "",
+  "appRole": "",
+  "min_valid_days": 8
+}
