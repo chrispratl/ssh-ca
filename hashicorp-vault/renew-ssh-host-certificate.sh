@@ -24,7 +24,7 @@ hostRole=$( jq -r .hostRole "$config_file" )
 appRole=$( jq -r .appRole "$config_file" )
 
 # Ensure variables are set
-if [[ -z "$server" || -z "$appRole" || -z "$roleid" || -z "$sshEnginePath" || -z "$hostRole" ]]; then
+if [[ "$server" == "null" || "$appRole" == "null" || "$roleid" == "null" || "$sshEnginePath" == "null" || "$hostRole" == "null" ]]; then
     echo "Error: One or more variables are not set in the configuration file!"
     exit 3
 fi
