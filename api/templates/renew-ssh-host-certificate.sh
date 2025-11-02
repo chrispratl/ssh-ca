@@ -9,5 +9,5 @@ cert=$(
 
 echo $cert > /etc/ssh/ssh_host_ed25519_key-cert.pub
 
-systemctl restart sshd
+systemctl restart ssh
 mkdir -p /run/sshd
